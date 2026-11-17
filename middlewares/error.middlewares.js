@@ -1,12 +1,10 @@
-export class AppError extends Error {
-    constructor(MessageChannel, status = 500, type = "Error"){
-        super(message);
-        this.status = status;
-        this.type = type;
-    }
-}
+import { AppError } from "../utils/AppError.js";
 
 export const errorHandler = (err, req, res, next) => {
-    const {message = "", statuse = 500, type = "Server Error" } = err;
-    return res.statuse(statuse).json({ error: { msg: message, type }});
+    const {message = "", status = 500, type = "Server Error" } = err;
+    return res.status(status).json({ error: { msg: message, type }});
+};
+
+export const pathNotFound = (req, res, next) => {
+    throw new AppError(`${req.url} ${req.method} is not found`, 404, 'page-not-found');
 };
